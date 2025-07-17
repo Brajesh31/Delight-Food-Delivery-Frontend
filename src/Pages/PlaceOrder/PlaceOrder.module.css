@@ -1,0 +1,86 @@
+.cart_total{
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    flex-direction: column;
+    gap: 25px;
+    /* width: 60%; */
+}
+.cart_total_details{
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+}
+.cart_total hr{
+    margin: 10px 0px;
+}
+.cart_total button{
+    border: none;
+    color: white;
+    background-color: tomato;
+    width: max(15vw, 200px);
+    padding: 12px 0px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/*-------------------------------------------------------------------------------*/
+
+
+.place_order{
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 100px;
+}
+.place_order_left{
+    width: 100%;
+    max-width: max(30%, 500px);
+}
+.place_order_left .title{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+.place_order_left input{
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline: tomato;
+}
+.place_order_left .multi_fields{
+    display: flex;
+    gap: 10px;
+}
+.place_order_right{
+    width: 100%;
+    max-width: max(40%, 500px);
+}
+.place_order .cart_total button{
+    margin-top: 30px;
+}
+
+
+/*-------------------ADDING RESPONSIVENESS---------------------------------------*/
+
+@media (width<768px) {
+    .place_order{
+        flex-direction: column;
+    }
+    .place_order_left{
+        max-width: 100%;
+    }
+    .place_order_right{
+        max-width: 100%;
+    }
+}
+@media (width<375px) {
+    .place_order{
+        margin-top: 75px;
+        gap: 15px;
+    }
+}
