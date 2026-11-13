@@ -1,30 +1,44 @@
 # Delight Food Delivery Frontend
 
-A React single-page frontend for a food-delivery experience. The repository is built with Create React App and React Router, and is intended to demonstrate the customer-facing presentation layer of a food ordering product.
+A React single-page frontend for a food ordering and delivery interface. The application presents a menu catalogue, category filtering, a client-side cart, a delivery-information screen, account modal UI, and supporting page components.
 
-> **Project scope:** This repository contains the frontend only. Do not assume that restaurant discovery, cart persistence, checkout, payments, order tracking, authentication, or delivery dispatch are backed by a production service unless a corresponding API is configured and verified.
+> **Scope:** This repository contains the browser frontend only. The current code uses a local in-memory food catalogue and React context for cart state. It does not establish a working restaurant backend, user authentication service, payment gateway, order persistence, delivery dispatch, or live order tracking.
 
-## Overview
+## Features present in the source
 
-The application is structured as a React application with a conventional Create React App development and production toolchain. React Router is available for client-side navigation. The UI is served locally by the development server and can be built into static assets for deployment to a compatible static host.
+- Food catalogue with 32 locally defined sample items.
+- Menu category selection.
+- Add and remove item controls.
+- Cart quantity and subtotal calculations.
+- Fixed delivery fee displayed in cart totals.
+- Home, cart, and orders routes using React Router.
+- Sign-up/login modal presentation.
+- Footer, mobile-app promotion section, and scroll-to-top control.
+- CSS Modules for component/page styling.
+
+The login modal and delivery form are UI only. The checkout screen does not submit an order or process payment. Cart state is held in React memory and is not persisted across reloads.
 
 ## Technology
 
-- React 18 and React DOM
-- Create React App / `react-scripts`
-- React Router DOM 6
-- Testing Library packages for component tests
-- Web Vitals for performance measurement
+| Area | Current implementation |
+|---|---|
+| UI | React 18 |
+| DOM renderer | React DOM 18 |
+| Routing | React Router DOM 6 |
+| Toolchain | Create React App via react-scripts 5 |
+| Styling | CSS and CSS Modules |
+| State | React Context and useState |
+| Tests | Jest and React Testing Library through CRA |
+| Package manager | npm |
+| Static assets | Local images under public/ and src/assets/ |
 
-## Getting started
+## Requirements
 
-### Requirements
+- Node.js version compatible with the locked Create React App toolchain. Use a maintained Node.js LTS release and verify compatibility if the legacy toolchain reports engine or OpenSSL issues.
+- npm.
+- Git.
 
-- Node.js LTS compatible with the installed `react-scripts` version
-- npm
-- Git
-
-### Install
+## Installation
 
 ```bash
 git clone https://github.com/Brajesh31/Delight-Food-Delivery-Frontend.git
@@ -32,109 +46,100 @@ cd Delight-Food-Delivery-Frontend
 npm ci
 ```
 
-### Run locally
+Use `npm ci` for reproducible installs from the committed package lock. Do not mix package managers or regenerate the lockfile with a different package manager.
+
+## Run locally
 
 ```bash
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The development server reloads when source files change.
+Open [http://localhost:3000](http://localhost:3000). If the port is occupied, Create React App may ask to use another available port.
 
-### Available scripts
+## Available commands
 
 | Command | Purpose |
-| --- | --- |
-| `npm start` | Start the local development server |
-| `npm test` | Run the Create React App test runner |
+|---|---|
+| `npm start` | Start the development server |
+| `npm test -- --watchAll=false` | Run tests once in CI/non-interactive mode |
+| `npm test` | Run the interactive test watcher |
 | `npm run build` | Create an optimized production build in `build/` |
-| `npm run eject` | Eject the CRA configuration, an irreversible operation |
+| `npm run eject` | Eject Create React App configuration, an irreversible operation |
 
-Avoid `npm run eject` unless there is a concrete requirement that cannot be met through the existing toolchain.
+Avoid `npm run eject` unless a documented requirement cannot be met through the current CRA configuration.
 
-## Application architecture
-
-The frontend runs in the browser. React renders the interface, and React Router handles in-app navigation. Static assets are served by the development server or copied into the production build. Any remote data, user identity, order state, or payment state must come from a separately implemented backend.
-
-```mermaid
-flowchart TD
-  Browser[Browser] --> CRA[Create React App runtime]
-  CRA --> React[React component tree]
-  React --> Router[React Router]
-  React --> UI[Food delivery interface]
-  UI --> Assets[Static assets]
-  UI -. optional configured requests .-> API[External backend API]
-  API -. JSON responses .-> UI
-```
-
-## Repository layout
+## Application structure
 
 ```text
-.
-├── public/                 # Public static assets and HTML shell
-├── src/                    # React application source
-├── package.json            # Scripts and dependencies
-├── package-lock.json       # npm dependency lockfile
-└── README.md
+src/
+├── App.js
+├── index.js
+├── context/
+│   └── StoreContext.jsx
+├── Pages/
+│   ├── Home/
+│   ├── Cart/
+│   └── PlaceOrder/
+├── components/
+│   ├── ExploreMenu/
+│   ├── FoodDisplay/
+│   ├── FoodDisplayItem/
+│   ├── Footer/
+│   ├── Header/
+│   ├── LoginSignup/
+│   ├── MobileApp/
+│   ├── Navbar/
+│   └── ScrollTop/
+└── assets/
+    ├── assets.js
+    └── image files
+
+public/
+├── index.html
+├── manifest.json
+├── robots.txt
+└── static public assets
 ```
 
-The exact component and route organization should be read from the current `src/` tree. This guide deliberately avoids claiming backend capabilities that are not part of this frontend repository.
+See [Architecture](docs/ARCHITECTURE.md) for responsibilities and data flow.
 
-## Development workflow
+## Cart and checkout behavior
 
-1. Create a focused branch for the change.
-2. Install dependencies with `npm ci`.
-3. Start the app with `npm start`.
-4. Make UI changes within the existing component and styling conventions.
-5. Add or update tests for behavior that can be exercised without a live backend.
-6. Run `npm test` and `npm run build`.
-7. Submit a pull request with screenshots for visual changes and notes about viewport coverage.
+The shared `StoreContext` exposes the static food list, cart item counts, add/remove functions, subtotal calculation, and a fixed delivery fee. The cart is held in React state. It resets when the application is reloaded.
 
-## Quality and accessibility
+The `/orders` route currently renders delivery input fields and a totals summary. It has no submit handler, backend request, payment integration, or order confirmation. Do not use it to enter real customer information.
 
-- Use semantic HTML for navigation, forms, buttons, and headings.
-- Give meaningful images useful alternative text. Decorative images should use empty alt text.
-- Ensure interactive controls are keyboard accessible and show visible focus states.
-- Keep loading, empty, error, and success states distinguishable.
-- Test responsive layouts at mobile, tablet, and desktop widths.
-- Do not place credentials or private API tokens in browser-delivered source code. A value bundled into a React application is public.
+## Quality checks
 
-## Backend integration boundary
+```bash
+npm test -- --watchAll=false
+npm run build
+```
 
-If the frontend is connected to a backend, document the exact API base URL and endpoint contracts before enabling integration-specific behavior. Prefer environment configuration for public API origins, such as a CRA `REACT_APP_*` variable. Never put server secrets in `REACT_APP_*` variables. Validate authentication and authorization on the server, not in the browser.
+The GitHub Actions quality workflow runs dependency installation, the test suite, and a production build. These checks validate the frontend bundle and available tests. They do not prove that a backend, payment flow, or production ordering workflow exists.
 
-## Deployment
+## Documentation
 
-Run `npm run build` and publish the generated `build/` directory to a static hosting provider. Configure the host to serve `index.html` for client-side routes so refreshing a nested route does not return a 404. Set any public environment variables at build time and rebuild after changing them.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Application flows](docs/APPLICATION-FLOWS.md)
+- [State and catalogue model](docs/STATE-AND-CATALOGUE.md)
+- [Backend integration boundary](docs/API-INTEGRATION.md)
+- [Environment and configuration](docs/ENVIRONMENT.md)
+- [Development](docs/DEVELOPMENT.md)
+- [Testing](docs/TESTING.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Accessibility](docs/ACCESSIBILITY.md)
+- [Known limitations](docs/LIMITATIONS.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
+- [Support](SUPPORT.md)
 
-## Troubleshooting
+## Security and privacy
 
-| Symptom | Checks |
-| --- | --- |
-| Port 3000 is busy | Accept the alternate port prompt or stop the process using port 3000 |
-| Dependencies fail to install | Use a supported Node.js LTS version and run `npm ci` from the lockfile |
-| Blank page | Inspect browser console errors, asset paths, and runtime exceptions |
-| Nested route returns 404 after refresh | Configure the static host's SPA fallback to `index.html` |
-| API request fails | Verify the configured API origin, CORS policy, network response, and server availability |
-| Build fails | Review the first compiler error, not only the final summary |
-
-## Security
-
-Report vulnerabilities privately to the repository maintainer. Do not commit credentials, personal data, real customer records, or production payment information. See [SECURITY.md](SECURITY.md).
-
-## Contributing
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Please include reproduction steps for bugs and screenshots for visual changes.
-
-## Project governance
-
-- [Code of Conduct](CODE_OF_CONDUCT.md)
-- [Security Policy](SECURITY.md)
-- [Contribution Guide](CONTRIBUTING.md)
-- [Bug Report](.github/ISSUE_TEMPLATE/bug_report.yml)
-- [Feature Request](.github/ISSUE_TEMPLATE/feature_request.yml)
+Do not put private API keys, payment secrets, or service credentials in React source or variables prefixed with `REACT_APP_`. Those values are exposed to the browser bundle. A real ordering service must validate prices, cart contents, identity, addresses, and payment state on a trusted backend. See [SECURITY.md](SECURITY.md).
 
 ## License
 
-This project is distributed under the MIT License. See [LICENSE](LICENSE) for the full text.
-
-Last updated: 2026-11-13 19:08 UTC
+The original project source code is distributed under the MIT License. See [LICENSE](LICENSE). Review third-party images, icons, fonts, and other assets separately before redistribution.

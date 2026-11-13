@@ -1,0 +1,27 @@
+name: Feature request
+description: Propose a scoped improvement to the frontend.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or user need
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: UX, accessibility, and responsive impact
+      description: Explain affected routes and interaction states.
+  - type: textarea
+    id: backend
+    attributes:
+      label: Backend dependency
+      description: State whether this is frontend-only or requires a separately implemented backend/API.

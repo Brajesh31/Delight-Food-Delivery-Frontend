@@ -1,0 +1,67 @@
+name: Bug report
+description: Report a reproducible frontend issue.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include passwords, payment details, real customer addresses, or private credentials. Checkout and authentication are currently UI demonstrations.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem summary
+      description: What is broken and which route/component is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+    validations:
+      required: true
+  - type: input
+    id: viewport
+    attributes:
+      label: Viewport dimensions
+      placeholder: e.g. 390 x 844
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Home and menu
+        - Food catalogue
+        - Cart and totals
+        - Login/signup modal
+        - Delivery information screen
+        - Navigation and routing
+        - Responsive layout
+        - Accessibility
+        - Build or tests
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or console output
+      description: Remove private information before attaching.
