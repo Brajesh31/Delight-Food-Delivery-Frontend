@@ -28,5 +28,5 @@ test("renders the main navigation and cart route link", () => {
   );
 
   expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
-  expect(screen.getByRole("link", { name: "" })).toBeInTheDocument();
+  expect(document.querySelector('a[href="/cart"]')).toBeInTheDocument();
 });
