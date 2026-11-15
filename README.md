@@ -144,4 +144,4 @@ Do not put private API keys, payment secrets, or service credentials in React so
 
 The original project source code is distributed under the MIT License. See [LICENSE](LICENSE). Review third-party images, icons, fonts, and other assets separately before redistribution.
 
-Last updated: 2026-11-15 10:05 UTC
+Last updated: 2026-11-15 17:29 UTC
